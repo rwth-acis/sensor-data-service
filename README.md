@@ -10,6 +10,7 @@ Actions performed in the [ARLEMPanel](https://github.com/rwth-acis/ARLEMPanel) a
 The sensor data service connects directly to the database used by [ARLEMServices](https://github.com/rizalishan/ARLEMServices) and [ARLEMPanel](https://github.com/rwth-acis/ARLEMPanel) and selects all the necessary data for xAPI statements, that represent actions performed by persons.
 Then the service creates the statements and offers a RESTful POST request to send them to the configured LRS instance.
 
+Currently the statements include only a person and a action, that is performed.
 
 To send the statements to the LRS:
 ```
