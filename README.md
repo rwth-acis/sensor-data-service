@@ -6,7 +6,7 @@ Other related repositories for the bachelor thesis can be found here: [Mentoring
 
 Sensor data
 -----------
-Actions performed in the [ARLEMPanel](https://github.com/rwth-acis/ARLEMPanel) are stored by the [msfusion.net](https://github.com/rwth-acis/msfusion.net) context manager using [ARLEMServices](https://github.com/rizalishan/ARLEMServices) componentes.
+Actions performed in the [ARLEMPanel](https://github.com/rwth-acis/ARLEMPanel) are stored by the [msfusion.net](https://github.com/rwth-acis/msfusion.net) context manager using [ARLEMServices](https://github.com/rizalishan/ARLEMServices) components.
 The sensor data service connects directly to the database used by [ARLEMServices](https://github.com/rizalishan/ARLEMServices) and [ARLEMPanel](https://github.com/rwth-acis/ARLEMPanel) and selects all the necessary data for xAPI statements, that represent actions performed by persons.
 Then the service creates the statements and offers a RESTful POST request to send them to the configured LRS instance.
 
@@ -24,6 +24,7 @@ Learning Locker configuration
 --------------------------
 In Learning Locker an LRS is configured under Settings > Store > Add new.
 And under Settings > Client a corresponding client can be configured with the authentication.
+Don't forget to bootstrap the service to a instance of the [learning-locker-service](https://github.com/rwth-acis/learning-locker-service)
 
 Service setup
 -------------

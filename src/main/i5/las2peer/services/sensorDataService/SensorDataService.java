@@ -64,7 +64,6 @@ public class SensorDataService extends RESTService {
 	private String mysqlDatabase;
 	
 	private Connection con;
-	private ArrayList<String> oldstatements = new ArrayList<String>();
 	
 	/**
 	 * 
@@ -105,8 +104,33 @@ public class SensorDataService extends RESTService {
 			e.printStackTrace();
 		}
 		ArrayList<String> newstatements = getSensorData();
-		sendXAPIstatements(newstatements);
-		
+		try {
+                Context.get().invoke("i5.las2peer.services.learningLockerService.LearningLockerService@1.0", "sendXAPIstatement", 
+                        (Serializable) newstatements);
+            } catch (ServiceNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (ServiceNotAvailableException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (InternalServiceException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (ServiceMethodNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (ServiceInvocationFailedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (ServiceAccessDeniedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (ServiceNotAuthorizedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+
 		try {
 			con.close();
 		} catch (SQLException e) {
@@ -134,7 +158,8 @@ public class SensorDataService extends RESTService {
 					+ "from action_triggers "
 					+ "join ( "
 					+ "select persons.name as personName, persons.mbox as personMbox, action_trigger_operations.actionTrigger "
-					+ "from persons join action_trigger_operations "
+					+ "from persons 
+					+ "join action_trigger_operations "
 					+ "on action_trigger_operations.entityId = persons.id "
 					+ "where action_trigger_operations.entityType = 'Person' ) "
 					+ "as a on a.actionTrigger = action_triggers.id ) "
@@ -211,51 +236,5 @@ public class SensorDataService extends RESTService {
 		
 		return statement.toString();
 	}
-	
-	
-	/**
-	 * A function that is called by sendSensorData.
-	 * It sends Sensor data to the LRS if it wasn't already sent.
-	 *
-	 * @param statements the statements that are being sent to an LRS
-	 * 
-	 */
-	public void sendXAPIstatements(ArrayList<String> statements) {
-		for(String statement : statements) {
-			if(!oldstatements.contains(statement)) {
-				oldstatements.add(statement);
-
-				try {
-					URL url = new URL(lrsDomain);
-					HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-					conn.setDoOutput(true);
-					conn.setDoInput(true);
-					conn.setRequestMethod("POST");
-					conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-					conn.setRequestProperty("X-Experience-API-Version","1.0.3");
-					conn.setRequestProperty("Authorization", lrsAuth);
-					conn.setRequestProperty("Cache-Control", "no-cache");
-					conn.setUseCaches(false);
-					
-					OutputStream os = conn.getOutputStream();
-					os.write(statement.getBytes("UTF-8"));
-					os.flush();
-
-					Reader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-					
-					for (int c; (c = reader.read()) >= 0;)
-						System.out.print((char)c);
-					
-					conn.disconnect();
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-		}
-	}
-
 
 }
