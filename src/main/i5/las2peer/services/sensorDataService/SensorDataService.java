@@ -55,8 +55,6 @@ import net.minidev.json.JSONObject;
 @ServicePath("/sensor")
 public class SensorDataService extends RESTService {
 
-	private String lrsDomain;
-	private String lrsAuth;
 	private String mysqlUser;
 	private String mysqlPassword;
 	private String mysqlHost;

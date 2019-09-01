@@ -30,8 +30,6 @@ Service setup
 -------------
 To set up the service configure the [property file](etc/i5.las2peer.services.sensorDataService.SensorDataService.properties) file with the database credentials and Learning Locker authentication.
 ```INI
-lrsDomain = http://exampleDomain/data/xAPI/statements
-lrsAuth = Basic exampleauth
 mysqlUser = exampleuser
 mysqlPassword = examplepass
 mysqlHost = localhost
@@ -63,10 +61,10 @@ docker build . -t learning-locker
 Then you can run the image like this:
 
 ```bash
-docker run -e LRS_DOMAIN=lrsDomain -e LRS_AUTH=lrsAuth -e MYSQL_USER=mysqlUser -e MYSQL_PASSWORD=mysqlPassword -e MYSQL_HOST=mysqlHost -e MYSQL_PORT=mysqlPort -e MYSQL_DATABASE=mysqlDatabase -p 9011:9011 mentoring-cockpit-service
+docker run -e MYSQL_USER=mysqlUser -e MYSQL_PASSWORD=mysqlPassword -e MYSQL_HOST=mysqlHost -e MYSQL_PORT=mysqlPort -e MYSQL_DATABASE=mysqlDatabase -p 9011:9011 mentoring-cockpit-service
 ```
 
-Replace *lrsDomain* with your Learning Locker domain, *lrsAuth* with the corresponding authentication, *mysqlUser* with the MySQL user name, *mysqlPassword* with the MySQL password, *mysqlHost* with the MySQL host, *mysqlPort* with the MySQL port, and *mysqlDatabase* with the MySQL database name. 
+Replace *mysqlUser* with the MySQL user name, *mysqlPassword* with the MySQL password, *mysqlHost* with the MySQL host, *mysqlPort* with the MySQL port, and *mysqlDatabase* with the MySQL database name. 
 
 *Do not forget to persist you database data*
 

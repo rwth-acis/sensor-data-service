@@ -15,10 +15,6 @@ export SERVICE_CLASS=$(awk -F "=" '/service.class/ {print $2}' etc/ant_configura
 export SERVICE=${SERVICE_NAME}.${SERVICE_CLASS}@${SERVICE_VERSION}
 
 # check mandatory variables
-[[ -z "${LRS_DOMAIN}" ]] && \
-    echo "Mandatory variable LRS_DOMAIN is not set. Add -e LRS_DOMAIN=lrsDomain to your arguments." && exit 1
-[[ -z "${LRS_AUTH}" ]] && \
-    echo "Mandatory variable LRS_AUTH is not set. Add -e LRS_AUTH=lrsAuth to your arguments." && exit 1
 [[ -z "${MYSQL_USER}" ]] && \
     echo "Mandatory variable MYSQL_USER is not set. Add -e MYSQL_USER=mysqlUser to your arguments." && exit 1
 [[ -z "${MYSQL_PASSWORD}" ]] && \
@@ -35,8 +31,7 @@ export SERVICE=${SERVICE_NAME}.${SERVICE_CLASS}@${SERVICE_VERSION}
 function set_in_service_config {
     sed -i "s#${1}[[:blank:]]*=.*#${1}=${2}#g" ${SERVICE_PROPERTY_FILE}
 }
-set_in_service_config lrsDomain ${LRS_DOMAIN}
-set_in_service_config lrsAuth "${LRS_AUTH}"
+
 set_in_service_config mysqlUser ${MYSQL_USER}
 set_in_service_config mysqlPassword ${MYSQL_PASSWORD}
 set_in_service_config mysqlHost ${MYSQL_HOST}
